@@ -1,0 +1,22 @@
+{
+  "name": "ae-snippets-nodejs",
+  "version": "1.0.0",
+  "description": "useful node.js snippets for the æternity blockchain",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kryptokrauts/ae-snippets-nodejs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kryptokrauts/ae-snippets-nodejs/issues"
+  },
+  "homepage": "https://github.com/kryptokrauts/ae-snippets-nodejs#readme",
+  "dependencies": {
+    "@aeternity/aepp-sdk": "^7.7.0"
+  }
+}
