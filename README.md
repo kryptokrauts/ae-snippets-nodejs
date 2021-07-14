@@ -11,6 +11,8 @@ This repository contains useful node.js snippets for the [æternity blockchain](
 
 ## List of snippets
 - [Delegate voting power for the governance æpp](governance_aepp_delegate_voting_power.md)
+- [Migrate AE (ERC-20) to aeternity mainnet](migrate_ae_erc-20_to_aeternity_mainnet.md)
+  - Currently depends on some outside knowledge about the MerkleTree which can be obtained using the API of the token migration backend
 
 ## Request snippets
 If you need a specific snippet that is currently not available let us know by creating an issue.
