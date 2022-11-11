@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/kryptokrauts/ae-snippets-nodejs#readme",
   "dependencies": {
-    "@aeternity/aepp-sdk": "8.2.1"
+    "@aeternity/aepp-sdk": "12.1.3"
   }
 }

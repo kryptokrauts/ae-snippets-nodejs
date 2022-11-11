@@ -1,7 +1,5 @@
-const { Universal, MemoryAccount, Node, Crypto } = require('@aeternity/aepp-sdk')
-const fs = require('fs')
-
-const CONTRACT_SOURCE = fs.readFileSync('./contracts/TokenMigrationInterface.aes', 'utf8')
+const { AeSdk, MemoryAccount, Node, getAddressFromPriv } = require('@aeternity/aepp-sdk')
+const CONTRACT_ACI = require('./aci/TokenMigrationACI.json')
 
 // the keypair to use for transactions
 let keypair
@@ -73,33 +71,26 @@ const processEnvironmentInput = () => {
             }
             keypair = {
                 secretKey,
-                publicKey: Crypto.getAddressFromPriv(secretKey)
+                publicKey: getAddressFromPriv(secretKey)
             }
             break
         default:
             console.error(`entrypoint not supported`)
             process.exit(1)       
     }
-    if (entrypoint !== 'migrate') {
-        // for dry-runs we generate a temp keypair that is never used anywhere in production
-        // sdk currently cannot be initialized without providing an account
-        // https://github.com/aeternity/aepp-sdk-js/issues/1224
-        keypair = Crypto.generateKeyPair()
-    }
 }
 
 const main = async () => {
-    const node = await Node({ url: 'https://mainnet.aeternity.io' })
-    const client = await Universal({
+    const node = new Node('https://mainnet.aeternity.io')
+    const aeSdk = new AeSdk({
         nodes: [
           { name: 'ae_mainnet', instance: node },
-        ],
-        compilerUrl: 'https://compiler.aepps.com',
-        accounts: [MemoryAccount({ keypair })],
+        ]
     })
     const contractAddress = 'ct_eJhrbPPS4V97VLKEVbSCJFpdA4uyXiZujQyLqMFoYV88TzDe6'
-    const contractInstance = await client.getContractInstance(CONTRACT_SOURCE, { contractAddress })
+    const contractInstance = await aeSdk.getContractInstance({ aci: CONTRACT_ACI, contractAddress })
     if(entrypoint === 'migrate') {
+        aeSdk.addAccount(new MemoryAccount({ keypair }), { select: true })
         console.log('performing migration...')
         const migrationTx = await contractInstance.call(entrypoint, params)
         console.log(`Migration tx-hash: ${migrationTx.hash}`)
